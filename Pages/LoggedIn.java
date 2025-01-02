@@ -42,7 +42,7 @@ public class LoggedIn extends JPanel{
         //Deposit function
         JButton depositButton = new hoverButton("Deposit","Deposit.png");
         depositButton.setBounds(100,400,190,100);
-        depositButton.addActionListener(_->{
+        depositButton.addActionListener(a->{
             //Ask variables using Classes.PromptBox.java
             PromptBox pBox = new PromptBox("Deposit","Deposit Amount: ", "Password: ");
             //if ok button clicked
@@ -79,7 +79,7 @@ public class LoggedIn extends JPanel{
         //Withdraw function
         JButton withdrawButton = new hoverButton("Withdraw","Withdraw.png");
         withdrawButton.setBounds(300,400,190,100);
-        withdrawButton.addActionListener(_->{
+        withdrawButton.addActionListener(a->{
             //Ask variables using Classes.PromptBox.java
             PromptBox pBox = new PromptBox("Withdraw","Withdrawal Amount: ", "Password: ");
             //if ok button clicked
