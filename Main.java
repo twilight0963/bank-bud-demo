@@ -10,14 +10,14 @@ public class Main {
     public static void main(String[] args) {
 
         //Colour system for dialog boxes
-        UIManager.put("MenuBar.background", new ColorUIResource(17,17,35));
-        UIManager.put("OptionPane.background",new ColorUIResource(17,17,35));
+        UIManager.put("MenuBar.background", new ColorUIResource(Color.decode("#16152b")));
+        UIManager.put("OptionPane.background",new ColorUIResource(Color.decode("#16152b")));
         UIManager.put("OptionPane.messageForeground", Color.white);
-        UIManager.put("Panel.background",new ColorUIResource(17,17,35));
-        UIManager.put("TextField.background", new ColorUIResource(26,26,53));
+        UIManager.put("Panel.background",new ColorUIResource(Color.decode("#16152b")));
+        UIManager.put("TextField.background", new ColorUIResource(75,72,130));
         UIManager.put("TextField.foreground", Color.white);
         UIManager.put("TextField.caretForeground",Color.white);
-        UIManager.put("PasswordField.background", new ColorUIResource(26,26,53));
+        UIManager.put("PasswordField.background", new ColorUIResource(75,72,130));
         UIManager.put("PasswordField.foreground", Color.white);
         UIManager.put("PasswordField.caretForeground", Color.white);
         UIManager.put("Label.foreground", Color.white);

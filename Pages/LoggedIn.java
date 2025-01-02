@@ -7,6 +7,8 @@ import Classes.TripleBox;
 import Classes.hoverButton;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import javax.swing.*;
 
@@ -16,24 +18,26 @@ public class LoggedIn extends JPanel{
     //Initialise function
     public LoggedIn(Manager accManager,JFrame root){
 
+        JPanel BG = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        BG.setBounds(10, 10, 980, 330);
+        BG.setBackground(Color.decode("#282649"));
+
         //Show name at the top
         JLabel greeting = new JLabel("Hello, " + accManager.getOwner()+"!",SwingConstants.CENTER);
         greeting.setFont(new Font("Segoe UI",Font.BOLD,36));
         greeting.setForeground(Color.WHITE);
-        greeting.setBounds(250,10,500,100);
 
         //Account number label
         Font regFont = new Font("Segoe UI", Font.PLAIN,16);
         JLabel acNumDetail = new JLabel("Account Number: " + accManager.getUID(),SwingConstants.CENTER);
         acNumDetail.setFont(regFont);
         acNumDetail.setForeground(Color.WHITE);
-        acNumDetail.setBounds(250,100,500,100);
 
         //Account balance label
         JLabel balDetail = new JLabel("Current balance: $" + accManager.getBalance(),SwingConstants.CENTER);
         balDetail.setFont(regFont);
         balDetail.setForeground(Color.WHITE);
-        balDetail.setBounds(250, 150, 500, 100);
 
         //Deposit function
         JButton depositButton = new hoverButton("Deposit","Deposit.png");
@@ -225,18 +229,28 @@ public class LoggedIn extends JPanel{
                 }
             }
         });
-    
+        
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.ipady=20;
+        gbc.gridx=0;
+        gbc.gridy=0;
+        BG.add(greeting,gbc);
+        gbc.gridx=0;
+        gbc.gridy=1;
+        BG.add(acNumDetail,gbc);
+        gbc.gridx=0;
+        gbc.gridy=2;
+        BG.add(balDetail,gbc);
+        add(BG);
+
         add(changePassButton);
         add(logOutButton);
         add(sendButton);
         add(withdrawButton);
         add(depositButton);
-        add(greeting);
-        add(acNumDetail);
-        add(balDetail);
 
         //Page settings
-        setBackground(Color.decode("#111123"));
+        setBackground(Color.decode("#16152b"));
         setLayout(null);
         setSize(1000,600);
         setVisible(true);

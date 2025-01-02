@@ -16,14 +16,14 @@ public class LoggedOut extends JPanel{
         JPanel BG = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         BG.setBounds(10, 10, 980, 260);
-        BG.setBackground(Color.decode("#1a1a35"));
+        BG.setBackground(Color.decode("#282649"));
         JLabel title = new JLabel("BankBud");
-        title.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        title.setFont(new Font("Segoe UI", Font.BOLD, 48));
         title.setForeground(Color.white);
         
         JButton SignUpButton = new hoverButton("Create New Account","SignUp.png");
             SignUpButton.addActionListener(_ -> {
-                PromptBox prompt = new PromptBox("Sign Up Form","Name", "Password");
+                PromptBox prompt = new PromptBox("Sign Up Form","Name: ", "Password: ");
                 if (prompt.done==true){
                     String result = accManager.signUp(prompt.ans2,prompt.ans1);
                     JOptionPane.showMessageDialog(this,result);
@@ -32,7 +32,7 @@ public class LoggedOut extends JPanel{
 
             JButton SignInButton = new hoverButton("Sign in!","SignIn.png");
             SignInButton.addActionListener(_ ->{
-                PromptBox prompt = new PromptBox("Please Authenticate","Account Number", "Password");
+                PromptBox prompt = new PromptBox("Please Authenticate","Account Number: ", "Password: ");
                 if (prompt.done){
                 try {
                     int result = accManager.signIn(Integer.valueOf(prompt.ans1), prompt.ans2);
@@ -57,7 +57,7 @@ public class LoggedOut extends JPanel{
             SignUpButton.setBounds(250,280,500,40);
             SignInButton.setBounds(250,350,500,40);
 
-            setBackground(Color.decode("#111123"));
+            setBackground(Color.decode("#16152b"));
             setLayout(null);
             BG.add(title,gbc);
             add(BG);
