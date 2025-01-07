@@ -17,8 +17,7 @@ public class Manager{
     public boolean signedIn = false;
 
     public Manager(){
-        //TODO
-        //Read database
+        //TODO: Read database
     }
 
     //Create new account and map to hash
@@ -47,8 +46,7 @@ public class Manager{
 
     //Remove existing saved information
     public Integer signOut(){ 
-        //TODO
-        //Add objects to database
+        //TODO: Add objects to database
         this.signedIn = false;
         this.savedUID = 0;
         this.savedPass = "";
