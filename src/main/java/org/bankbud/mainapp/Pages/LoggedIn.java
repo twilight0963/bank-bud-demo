@@ -42,7 +42,7 @@ public class LoggedIn extends JPanel{
         acNumDetail.setForeground(Color.WHITE);
 
         //Account balance label
-        JLabel balDetail = new JLabel("Current balance: $" + accManager.getBalance(),SwingConstants.CENTER);
+        JLabel balDetail = new JLabel("Current balance: $"+accManager.getBalance(),SwingConstants.CENTER);
         balDetail.setFont(regFont);
         balDetail.setForeground(Color.WHITE);
 
@@ -55,8 +55,8 @@ public class LoggedIn extends JPanel{
             //if ok button clicked
             if (pBox.done){
                 try{
-                    int newBal = accManager.deposit(Integer.valueOf(pBox.ans1),pBox.ans2);
-                switch (newBal){
+                    double newBal = accManager.deposit(Double.parseDouble(pBox.ans1),pBox.ans2);
+                switch ((int) newBal){
 
                         //ERRORS
                         //-1 = Auth error
@@ -64,7 +64,7 @@ public class LoggedIn extends JPanel{
                         case -1 -> {
                             JOptionPane.showMessageDialog(this, "Password is incorrect!");
                         }
-                        case -5 -> {
+                        case -5-> {
                             JOptionPane.showMessageDialog(this, "Deposit amount must be a positive number!");
                         }
                         default -> {
@@ -92,9 +92,9 @@ public class LoggedIn extends JPanel{
             //if ok button clicked
             if (pBox.done){
                 try{
-                        int newBal = accManager.withdraw(Integer.valueOf(pBox.ans1),pBox.ans2);
+                        double newBal = accManager.withdraw(Double.parseDouble(pBox.ans1),pBox.ans2);
                         
-                        switch (newBal){
+                        switch ((int) newBal){
 
                             //ERRORS
                             //-1 = Auth Error
@@ -136,8 +136,8 @@ public class LoggedIn extends JPanel{
             //if ok button clicked
             if (tBox.done){
                 try{
-                        int newBal = accManager.sendBal(Integer.valueOf(tBox.ans1), Integer.valueOf(tBox.ans2), tBox.ans3);
-                        switch (newBal){
+                        double newBal = accManager.sendBal(Integer.parseInt(tBox.ans1), Integer.parseInt(tBox.ans2), tBox.ans3);
+                        switch ((int)newBal){
 
                             //ERRORS
                             //-1 = Auth Error

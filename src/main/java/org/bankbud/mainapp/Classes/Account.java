@@ -4,7 +4,7 @@ public class Account{
     
     private String pass;
     private final String owner;
-    private int bal;
+    private double bal;
         
     //init new account
 
@@ -24,12 +24,12 @@ public class Account{
 
     //ADD to balance and return newBalance
 
-    public int deposit(Integer amt){
+    public double deposit(Double amt){
         if (amt<0){
             return -5;
         }
         
-        int curBal = this.bal;
+        double curBal = this.bal;
         this.bal = curBal+amt;
         return this.bal;
             
@@ -37,13 +37,13 @@ public class Account{
 
     //REMOVE from balance and return newBalance
 
-    public int withdraw(String pass, int amt){
+    public double withdraw(String pass, double amt){
         if (pass.equals(this.pass)){
             if (amt<0){
                 return -5;
             }
             
-            int curBal = this.bal;
+            double curBal = this.bal;
             if (amt<=curBal){
             this.bal = curBal-amt;
             return this.bal;
@@ -57,7 +57,7 @@ public class Account{
     //return account name [0] and current balance [1]
 
     public String[] accDetails(String pass){
-            String[] details = new String[]{this.owner,String.valueOf(this.bal)};
+            String[] details = new String[]{this.owner,String.format("%.2f",this.bal)};
             return details;
         
     }

@@ -17,7 +17,7 @@ public class Manager{
     public boolean signedIn = false;
 
     public Manager(){
-        //TODO: Read database
+        //TODO: DB
     }
 
     //Create new account and map to hash
@@ -54,7 +54,7 @@ public class Manager{
     }
 
     //Check password and call function
-    public Integer deposit(Integer amount,String pass){
+    public double deposit(double amount,String pass){
         Account acc = accounts.get(savedUID);
         if (pass.equals(savedPass)){
             return acc.deposit(amount);
@@ -64,7 +64,7 @@ public class Manager{
     }
 
     //Password is not checked since it is passed onto account function
-    public Integer withdraw(Integer amount,String pass){
+    public double withdraw(double amount,String pass){
             Account acc = accounts.get(savedUID);
             return acc.withdraw(pass, amount);
     }
@@ -90,12 +90,12 @@ public class Manager{
     }
 
     //Withdraw from current account and deposit to another
-    public Integer sendBal(Integer address, Integer amount ,String pass){
+    public double sendBal(int address, double amount ,String pass){
         if (Objects.equals(address, savedUID)){
             return -4;
         }
         Account acc1 = accounts.get(savedUID);
-        int sendBal = acc1.withdraw(pass, amount);
+        double sendBal = acc1.withdraw(pass, amount);
         if (sendBal>=0){
             Account acc2 = accounts.get(address);
             if (acc2!=null){

@@ -1,14 +1,17 @@
-package org.bankbud.1234.Classes;
+package org.bankbud.mainapp.Classes;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseManager {
-    private static final String URL = "jdbc:mysql://localhost:3306/bank_db"; // Replace with your DB name
-    private static final String USER = "root"; // Replace with your DB username
-    private static final String PASSWORD = "password"; // Replace with your DB password
+    private static final String URL = org.bankbud.mainapp.Constants.Constants.DB_URL; // Replace with your DB name
+    private static final String USER = org.bankbud.mainapp.Constants.Constants.DB_USER; // Replace with your DB username
+    private static final String PASSWORD = org.bankbud.mainapp.Constants.Constants.DB_PASSWORD; // Replace with your DB password
+
+    public static final String ACCTABLE = "";
 
     private Connection connection;
 
@@ -33,12 +36,16 @@ public class DatabaseManager {
         }
     }
 
-    // Close connection
-    public void close() {
-        try {
-            if (connection != null) {
-                connection.close();
-            }
+    public ResultSet selectQuery(String sql) {
+        try (Statement statement = connection.createStatement()) {
+            ResultSet result = statement.executeQuery(sql);
+            return result;
+        } catch (SQLException e) {
+            System.err.println("SQL Execution Failed: " + e.getMessage());
+            return null;
         }
     }
+
+
+
 }
