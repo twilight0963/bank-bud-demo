@@ -200,6 +200,26 @@ public class LoggedIn extends JPanel{
             //Update JFrame
             root.repaint();
         });
+        
+        JButton transactionsButton = new hoverButton("Transactions","#993051","#b24064","LogOut.png");
+
+        transactionsButton.setBounds(700,400,400,100);
+        transactionsButton.addActionListener(_->{
+
+            //Initialise Pages.LoggedOut.java
+            JPanel transactionPage = new TransactionHistory(accManager,root);
+
+            
+            //Set this page invisible and remove from JFrame
+            setVisible(false);
+            root.getContentPane().remove(this);
+
+            //Add logoutpage to JFrame
+            root.add(transactionPage);
+            transactionPage.setVisible(true);
+            //Update JFrame
+            root.repaint();
+        });
 
         //changePass function
         JButton changePassButton = new hoverButton("Change password","#36966f","#78baa0","Auth.png");
@@ -248,6 +268,10 @@ public class LoggedIn extends JPanel{
         gbc.gridx=0;
         gbc.gridy=2;
         BG.add(balDetail,gbc);
+        gbc.ipadx = 20;
+        gbc.gridx=0;
+        gbc.gridy=3;
+        BG.add(transactionsButton,gbc);
         add(BG);
 
         add(changePassButton);

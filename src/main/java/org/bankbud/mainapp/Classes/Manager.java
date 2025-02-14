@@ -1,32 +1,42 @@
 package org.bankbud.mainapp.Classes;
-import java.util.HashMap;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
-//import org.json.JSONObject;
+
 
 
 //Account controller class
 public class Manager{
     //Hashtable contains account numbers linked with details
-    private final HashMap<Integer,Account> accounts = new HashMap<>();
+    DatabaseManager db = new DatabaseManager();
     //Account numbers are serialised
-    private int accno = 10001;
 
     //Currently saved password
     private Integer savedUID;
     private String savedPass;
+    private Account savedAcc;
     public boolean signedIn = false;
 
     public Manager(){
-        //TODO: DB
+    }
+
+    private void updateDB(){
+        String details[] = savedAcc.accDetails(savedPass);
+        String stmt = String.format("""
+        UPDATE Accounts
+        SET balance = %s 
+        WHERE AccountID = %s""", details[1], savedUID);
+        db.execute(stmt);
     }
 
     //Create new account and map to hash
     public String signUp(String password, String name){
         try {
-            Account acc = new Account(password,name);
-            this.accounts.put(accno,acc);
-            this.accno++;
-            return "Account successfully created.\n Your Account number: " + (accno-1);
+            String stmt = String.format("INSERT INTO Accounts (password, owner, Balance) VALUES ('%s', '%s', 0);", password, name);
+            long accno = db.executeInsert(stmt);
+            
+            return "Account successfully created.\n Your Account number: " + (accno);
         } catch (Exception e) {
             return "Unexpected error occured";
         }
@@ -34,30 +44,45 @@ public class Manager{
 
     //Function to "save" current login information for quick comparasion
     public Integer signIn(Integer uid, String password){
-        Account acc = accounts.get(uid);
-        if (acc!=null && acc.checkPass(password)){
-            this.signedIn = true;
-            this.savedPass = password;
-            this.savedUID = uid;
-            return 0;
+        String stmt = "SELECT * FROM Accounts WHERE AccountID = ? AND password = ?";
+        try (PreparedStatement pstmt = db.getConnection().prepareStatement(stmt)) {
+            pstmt.setInt(1,uid);
+            pstmt.setString(2,password);
+            ResultSet acc = db.selectQuery(pstmt);
+            if (acc.next()){
+                this.signedIn = true;
+                try {
+                    this.savedUID = acc.getInt("AccountID");
+                    this.savedPass = acc.getString("password");
+                    String savedName = acc.getString("owner");
+                    double savedBal = acc.getDouble("Balance");
+                    
+                    savedAcc = new Account(savedPass, savedName, savedBal);
+                    return 0;
+                } catch (SQLException e) {
+                    return -2;
+                }
+                
+            }
+        } catch (SQLException e) {
+            return -2;
         }
         return -1;
     }
 
     //Remove existing saved information
     public Integer signOut(){ 
-        //TODO: Add objects to database
         this.signedIn = false;
         this.savedUID = 0;
         this.savedPass = "";
+        updateDB();
         return 0;
     }
 
     //Check password and call function
     public double deposit(double amount,String pass){
-        Account acc = accounts.get(savedUID);
         if (pass.equals(savedPass)){
-            return acc.deposit(amount);
+            return savedAcc.deposit(amount);
         }
         return -1;
 
@@ -65,22 +90,21 @@ public class Manager{
 
     //Password is not checked since it is passed onto account function
     public double withdraw(double amount,String pass){
-            Account acc = accounts.get(savedUID);
-            return acc.withdraw(pass, amount);
+            return savedAcc.withdraw(pass, amount);
     }
 
 
     //Grab current balance using saved password
     public String getBalance(){
-        Account acc = accounts.get(savedUID);
-        String[] details = acc.accDetails(savedPass);
+        String[] details = savedAcc.accDetails(savedPass);
+        updateDB();
         return details[1];
     }
 
     //Grab current account name from saved value
     public String getOwner(){
-        Account acc = accounts.get(savedUID);
-        String[] details = acc.accDetails(savedPass);
+        String[] details = savedAcc.accDetails(savedPass);
+        updateDB();
         return details[0];
     }
 
@@ -94,13 +118,36 @@ public class Manager{
         if (Objects.equals(address, savedUID)){
             return -4;
         }
-        Account acc1 = accounts.get(savedUID);
+        Account acc1 = savedAcc;
         double sendBal = acc1.withdraw(pass, amount);
         if (sendBal>=0){
-            Account acc2 = accounts.get(address);
-            if (acc2!=null){
-                acc2.deposit(amount);
-                return 0;
+            String selStmt = "SELECT * FROM Accounts WHERE AccountID = ?";
+            PreparedStatement pstmt;
+            try {
+                pstmt = db.getConnection().prepareStatement(selStmt);
+                pstmt.setInt(1,address);
+            } catch (SQLException e) {
+                return -2;
+            }
+            
+            ResultSet acc2 = db.selectQuery(pstmt);
+            try {
+                if (acc2.next()){
+                    try {
+                        double bal = acc2.getDouble("Balance");
+                        String stmt = String.format("""
+                            UPDATE Accounts
+                            SET balance = %s 
+                            WHERE AccountID =%d""", amount+bal, address);
+                        db.execute(stmt);
+
+                    } catch (SQLException e) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            } catch (SQLException e) {
+                return -2;
             }
             return -3;
         }
@@ -108,9 +155,8 @@ public class Manager{
     }
 
     public Integer changePass(String oldPass, String pass,String confirmPass){
-        Account acc = accounts.get(savedUID);
         if (pass.equals(confirmPass)){
-            return acc.changePassword(oldPass, pass);
+            return savedAcc.changePassword(oldPass, pass);
         }
         return -5;
     }

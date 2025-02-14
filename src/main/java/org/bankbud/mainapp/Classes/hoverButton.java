@@ -14,7 +14,7 @@ public class hoverButton extends JButton{
     public hoverButton(String text,String hex1, String hex2,String ic){
         //#6d58f4
         //#aea4f4
-        Image icon = new ImageIcon("Resources/"+ic).getImage().getScaledInstance(45, 45,Image.SCALE_SMOOTH);
+        Image icon = new ImageIcon("src/main/java/org/bankbud/mainapp/Resources/"+ic).getImage().getScaledInstance(45, 45,Image.SCALE_SMOOTH);
         Color usualBG = Color.decode(hex1);
         Color usualFG = Color.white;
         Color hoveredBG = Color.decode(hex2);

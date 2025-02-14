@@ -2,6 +2,7 @@ package org.bankbud.mainapp.Classes;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,6 +26,10 @@ public class DatabaseManager {
         }
     }
 
+    public Connection getConnection(){
+        return this.connection;
+    }
+
     // Execute SQL statements (INSERT, UPDATE, DELETE, etc.)
     public boolean execute(String sql) {
         try (Statement statement = connection.createStatement()) {
@@ -36,9 +41,30 @@ public class DatabaseManager {
         }
     }
 
-    public ResultSet selectQuery(String sql) {
-        try (Statement statement = connection.createStatement()) {
-            ResultSet result = statement.executeQuery(sql);
+// Execute SQL statements (INSERT) and return the last inserted ID
+public long executeInsert(String sql) {
+    long lastInsertedId = -1; // Default to -1 in case of failure
+
+    try (Statement statement = connection.createStatement()) {
+        int affectedRows = statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+
+        if (affectedRows > 0) {
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    lastInsertedId = generatedKeys.getLong(1);
+                }
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("SQL Execution Failed: " + e.getMessage());
+    }
+
+    return lastInsertedId;
+}
+
+    public ResultSet selectQuery(PreparedStatement sql) {
+        try {
+            ResultSet result = sql.executeQuery();
             return result;
         } catch (SQLException e) {
             System.err.println("SQL Execution Failed: " + e.getMessage());

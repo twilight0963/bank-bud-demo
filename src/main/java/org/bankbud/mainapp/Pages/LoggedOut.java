@@ -52,7 +52,7 @@ public class LoggedOut extends JPanel{
                             logInPage.validate();
                             JOptionPane.showMessageDialog(this,"Welcome, "+accManager.getOwner()+"!");
                         }
-                        default -> JOptionPane.showMessageDialog(this,"Invalid Account Number or Password!");
+                        case -1 -> JOptionPane.showMessageDialog(this,"Invalid Account Number or Password!");
                     }
                 }
                 catch (HeadlessException | NumberFormatException e) {

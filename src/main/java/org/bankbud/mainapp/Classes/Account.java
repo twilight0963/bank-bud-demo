@@ -8,14 +8,18 @@ public class Account{
         
     //init new account
 
-    public Account(String pass,String name){
+    public Account(String pass,String name, double bal){
         //Capitalise first letter
         String capName = name.substring(0, 1).toUpperCase() + name.substring(1);
 
         //set variables
         this.owner = capName;
         this.pass = pass;
-        this.bal = 0;
+        this.bal = bal;
+    }
+
+    public Account(String pass, String name){
+        this(pass, name, 0);
     }
 
     public boolean checkPass(String password){
