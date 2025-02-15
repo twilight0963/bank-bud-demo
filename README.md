@@ -13,11 +13,12 @@ use {your db name};
 4. Creating tables:
 CREATE TABLE Accounts (
     AccountID INT PRIMARY KEY AUTO_INCREMENT,
-    Username VARCHAR(255) NOT NULL UNIQUE,
-    PasswordHash VARCHAR(255) NOT NULL,
+    owner VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
     Balance DECIMAL(10,2) DEFAULT 0.00
 );
 CREATE TABLE Transactions (
+    Type Varchar(10),
     TransactionID INT PRIMARY KEY AUTO_INCREMENT,
     SenderID INT,
     ReceiverID INT,
