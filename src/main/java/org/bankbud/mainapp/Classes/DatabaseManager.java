@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseManager {
+    //TODO: Change to your DB info
     private static final String URL = org.bankbud.mainapp.Constants.Constants.DB_URL; // Replace with your DB name
     private static final String USER = org.bankbud.mainapp.Constants.Constants.DB_USER; // Replace with your DB username
     private static final String PASSWORD = org.bankbud.mainapp.Constants.Constants.DB_PASSWORD; // Replace with your DB password

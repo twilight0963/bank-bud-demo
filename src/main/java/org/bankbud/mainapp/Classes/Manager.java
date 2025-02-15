@@ -25,8 +25,8 @@ public class Manager{
         String details[] = savedAcc.accDetails(savedPass);
         String stmt = String.format("""
         UPDATE Accounts
-        SET balance = %s 
-        WHERE AccountID = %s""", details[1], savedUID);
+        SET balance = %s, password = %s  
+        WHERE AccountID = %s""", details[1], savedPass, savedUID);
         db.execute(stmt);
     }
 
@@ -82,6 +82,8 @@ public class Manager{
     //Check password and call function
     public double deposit(double amount,String pass){
         if (pass.equals(savedPass)){
+            String stmt = String.format("INSERT INTO Transactions (type, ReceiverID, Amt) VALUES ('Deposit', '%s', %f);", this.savedUID, amount);
+            db.executeInsert(stmt);
             return savedAcc.deposit(amount);
         }
         return -1;
@@ -90,6 +92,8 @@ public class Manager{
 
     //Password is not checked since it is passed onto account function
     public double withdraw(double amount,String pass){
+            String stmt = String.format("INSERT INTO Transactions (type, SenderID, Amt) VALUES ('Withdraw', '%s', %f);", this.savedUID, amount);
+            db.executeInsert(stmt);
             return savedAcc.withdraw(pass, amount);
     }
 
@@ -140,7 +144,8 @@ public class Manager{
                             SET balance = %s 
                             WHERE AccountID =%d""", amount+bal, address);
                         db.execute(stmt);
-
+                        String stmt2 = String.format("INSERT INTO Transactions (type, ReceiverID, SenderID, Amt) VALUES ('Transfer', '%s', '%s', %f);",  address, this.savedUID, amount);
+                        db.executeInsert(stmt2);
                     } catch (SQLException e) {
                         return -1;
                     }
@@ -156,7 +161,12 @@ public class Manager{
 
     public Integer changePass(String oldPass, String pass,String confirmPass){
         if (pass.equals(confirmPass)){
-            return savedAcc.changePassword(oldPass, pass);
+            int x = savedAcc.changePassword(oldPass, pass);
+            if (x==0){
+                savedPass = pass;
+                updateDB();
+            }
+            return x;
         }
         return -5;
     }

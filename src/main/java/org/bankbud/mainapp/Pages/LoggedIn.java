@@ -201,7 +201,7 @@ public class LoggedIn extends JPanel{
             root.repaint();
         });
         
-        JButton transactionsButton = new hoverButton("Transactions","#993051","#b24064","LogOut.png");
+        JButton transactionsButton = new hoverButton("Transactions","LogOut.png");
 
         transactionsButton.setBounds(700,400,400,100);
         transactionsButton.addActionListener(_->{
