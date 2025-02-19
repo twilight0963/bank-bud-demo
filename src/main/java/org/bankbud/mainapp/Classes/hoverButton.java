@@ -7,14 +7,14 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class hoverButton extends JButton{
+public class HoverButton extends JButton{
 
 
 
-    public hoverButton(String text,String hex1, String hex2,String ic){
+    public HoverButton(String text,String hex1, String hex2,String ic){
         //#6d58f4
         //#aea4f4
-        Image icon = new ImageIcon("src/main/java/org/bankbud/mainapp/Resources/"+ic).getImage().getScaledInstance(45, 45,Image.SCALE_SMOOTH);
+        Image icon = new ImageIcon("src/main/java/org/bankbud/mainapp/Resources/"+ic).getImage().getScaledInstance(35, 35,Image.SCALE_SMOOTH);
         Color usualBG = Color.decode(hex1);
         Color usualFG = Color.white;
         Color hoveredBG = Color.decode(hex2);
@@ -41,7 +41,7 @@ public class hoverButton extends JButton{
                 }
         });
     }
-    public hoverButton(String text,String ic){
+    public HoverButton(String text,String ic){
         this(text,"#5650a8","#736be5",ic);
     }
 }

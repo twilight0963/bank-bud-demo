@@ -19,8 +19,8 @@ import javax.swing.table.JTableHeader;
 
 import org.bankbud.mainapp.Classes.AmountCellRenderer;
 import org.bankbud.mainapp.Classes.DatabaseManager;
+import org.bankbud.mainapp.Classes.HoverButton;
 import org.bankbud.mainapp.Classes.Manager;
-import org.bankbud.mainapp.Classes.hoverButton;
 
 public class TransactionHistory extends JPanel{
     public TransactionHistory(Manager accManager,JFrame root){
@@ -75,6 +75,7 @@ public class TransactionHistory extends JPanel{
                     accounts = "Self";
                 }
                 String netAmt = transactions.getString("FormattedAmt"); // Prefixed with + or -
+                netAmt = String.valueOf(netAmt).replaceAll("\\.?0+$", ""); 
                 String dateTime = transactions.getTimestamp("DateTime").toString();
 
                 // Add row to list
@@ -84,7 +85,7 @@ public class TransactionHistory extends JPanel{
             System.err.println("SQL Error! "+e);
         }
         
-        JButton backButton = new hoverButton("Back","LogOut.png");
+        JButton backButton = new HoverButton("Back","BackButton.png");
 
         backButton.setBounds(50,50,150,50);
         backButton.addActionListener(_->{

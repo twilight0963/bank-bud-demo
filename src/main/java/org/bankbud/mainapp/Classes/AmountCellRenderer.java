@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class AmountCellRenderer extends DefaultTableCellRenderer {
+    //Color changer for the net amt, green for addition, red for loss..
     @Override
     public void setValue(Object value) {
         if (value instanceof Number number) {

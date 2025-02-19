@@ -11,9 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.bankbud.mainapp.Classes.HoverButton;
 import org.bankbud.mainapp.Classes.Manager;
 import org.bankbud.mainapp.Classes.PromptBox;
-import org.bankbud.mainapp.Classes.hoverButton;
 
 
 public class LoggedOut extends JPanel{
@@ -27,7 +27,7 @@ public class LoggedOut extends JPanel{
         title.setFont(new Font("Segoe UI", Font.BOLD, 48));
         title.setForeground(Color.white);
         
-        JButton SignUpButton = new hoverButton("Create New Account","SignUp.png");
+        JButton SignUpButton = new HoverButton("Create New Account","SignUp.png");
             SignUpButton.addActionListener(_ -> {
                 PromptBox prompt = new PromptBox("Sign Up Form","Name: ", "Password: ");
                 if (prompt.done==true){
@@ -36,7 +36,7 @@ public class LoggedOut extends JPanel{
                 }
             });
 
-            JButton SignInButton = new hoverButton("Sign in!","SignIn.png");
+            JButton SignInButton = new HoverButton("Sign in!","SignIn.png");
             SignInButton.addActionListener(_ ->{
                 PromptBox prompt = new PromptBox("Please Authenticate","Account Number: ", "Password: ");
                 if (prompt.done){

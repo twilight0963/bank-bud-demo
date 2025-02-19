@@ -14,10 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import org.bankbud.mainapp.Classes.ChangePassPrompt;
+import org.bankbud.mainapp.Classes.HoverButton;
 import org.bankbud.mainapp.Classes.Manager;
 import org.bankbud.mainapp.Classes.PromptBox;
 import org.bankbud.mainapp.Classes.TripleBox;
-import org.bankbud.mainapp.Classes.hoverButton;
 
 //Page created using Swing JPanels
 public class LoggedIn extends JPanel{
@@ -47,7 +47,7 @@ public class LoggedIn extends JPanel{
         balDetail.setForeground(Color.WHITE);
 
         //Deposit function
-        JButton depositButton = new hoverButton("Deposit","Deposit.png");
+        JButton depositButton = new HoverButton("Deposit","Deposit.png");
         depositButton.setBounds(100,400,190,100);
         depositButton.addActionListener(_->{
             //Ask variables using Classes.PromptBox.java
@@ -65,7 +65,7 @@ public class LoggedIn extends JPanel{
                             JOptionPane.showMessageDialog(this, "Password is incorrect!");
                         }
                         case -5-> {
-                            JOptionPane.showMessageDialog(this, "Deposit amount must be a positive number!");
+                            JOptionPane.showMessageDialog(this, "Invalid amount!");
                         }
                         default -> {
                             JOptionPane.showMessageDialog(this, "Deposited successfully!\n Your new balance is $"+newBal);
@@ -84,7 +84,7 @@ public class LoggedIn extends JPanel{
 
 
         //Withdraw function
-        JButton withdrawButton = new hoverButton("Withdraw","Withdraw.png");
+        JButton withdrawButton = new HoverButton("Withdraw","Withdraw.png");
         withdrawButton.setBounds(300,400,190,100);
         withdrawButton.addActionListener(_->{
             //Ask variables using Classes.PromptBox.java
@@ -108,7 +108,7 @@ public class LoggedIn extends JPanel{
                                 JOptionPane.showMessageDialog(this, "Balance too low!");
                             }
                             case -5 -> {
-                                JOptionPane.showMessageDialog(this, "Withdraw amount must be a positive number!");
+                                JOptionPane.showMessageDialog(this, "Invalid withdraw amount!");
                             }
                             default -> {
                                 {
@@ -128,7 +128,7 @@ public class LoggedIn extends JPanel{
         });
 
         //Transfer function
-        JButton sendButton = new hoverButton("Transfer funds","Transfer.png");
+        JButton sendButton = new HoverButton("Transfer funds","Transfer.png");
         sendButton.setBounds(500,400,190,100);
         sendButton.addActionListener(_->{
             //Ask variables using Classes.TripleBox.java
@@ -136,7 +136,7 @@ public class LoggedIn extends JPanel{
             //if ok button clicked
             if (tBox.done){
                 try{
-                        double newBal = accManager.sendBal(Integer.parseInt(tBox.ans1), Integer.parseInt(tBox.ans2), tBox.ans3);
+                        double newBal = accManager.sendBal(Integer.parseInt(tBox.ans1), Double.parseDouble(tBox.ans2), tBox.ans3);
                         switch ((int)newBal){
 
                             //ERRORS
@@ -160,7 +160,7 @@ public class LoggedIn extends JPanel{
 
                             }
                             case -5 -> {
-                                JOptionPane.showMessageDialog(this, "Cannot send negative amount!");
+                                JOptionPane.showMessageDialog(this, "Invalid transfer amount!");
                             }
                             default -> {
                                 {
@@ -180,7 +180,7 @@ public class LoggedIn extends JPanel{
 
 
         //Go back to log out screen and overwrite all saved information
-        JButton logOutButton = new hoverButton("Log Out","#993051","#b24064","LogOut.png");
+        JButton logOutButton = new HoverButton("Log Out","#993051","#b24064","LogOut.png");
 
         logOutButton.setBounds(700,400,190,100);
         logOutButton.addActionListener(_->{
@@ -201,7 +201,7 @@ public class LoggedIn extends JPanel{
             root.repaint();
         });
         
-        JButton transactionsButton = new hoverButton("Transactions","LogOut.png");
+        JButton transactionsButton = new HoverButton("Transactions","Transactions.png");
 
         transactionsButton.setBounds(700,400,400,100);
         transactionsButton.addActionListener(_->{
@@ -222,7 +222,7 @@ public class LoggedIn extends JPanel{
         });
 
         //changePass function
-        JButton changePassButton = new hoverButton("Change password","#36966f","#78baa0","Auth.png");
+        JButton changePassButton = new HoverButton("Change password","#36966f","#78baa0","Auth.png");
         changePassButton.setBounds(100,350,790,40);
         changePassButton.addActionListener(_->{
             //Ask variables using Classes.PromptBox.java
